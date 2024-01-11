@@ -1,0 +1,32 @@
+From b94d2334fe6e2578aec32f97b9c3bd0d7709ad12 Mon Sep 17 00:00:00 2001
+From: Matthias Clasen <mclasen@redhat.com>
+Date: Wed, 22 May 2019 15:51:19 -0400
+Subject: [PATCH] Add a setting for overlay scrolling
+
+This setting will be used by GTK.
+---
+ schemas/org.gnome.desktop.interface.gschema.xml.in | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/schemas/org.gnome.desktop.interface.gschema.xml.in b/schemas/org.gnome.desktop.interface.gschema.xml.in
+index 22ef50d..680ac4c 100644
+--- a/schemas/org.gnome.desktop.interface.gschema.xml.in
++++ b/schemas/org.gnome.desktop.interface.gschema.xml.in
+@@ -242,5 +242,14 @@
+         If true, gtk+ uses the primary paste selection, usually triggered by a middle mouse button click.
+       </description>
+     </key>
++    <key name="overlay-scrolling" type="b">
++      <default>true</default>
++      <summary>Allow overlay scrolling</summary>
++      <description>
++        Whether scrollbars should be overlayed as indicators. Depending
++        on input devices in use, permanent scrollbars may still be
++        displayed.
++      </description>
++    </key>
+   </schema>
+ </schemalist>
+-- 
+2.23.0
+

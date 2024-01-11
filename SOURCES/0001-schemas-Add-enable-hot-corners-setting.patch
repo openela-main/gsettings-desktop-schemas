@@ -1,0 +1,37 @@
+From 1e254151b13dbba244a2c8982c4e160a67f7b41b Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Florian=20M=C3=BCllner?= <fmuellner@gnome.org>
+Date: Thu, 13 Jun 2019 14:40:56 +0000
+Subject: [PATCH] schemas: Add 'enable-hot-corners' setting
+
+Whether people love or hate gnome-shell's hot corner depends to large
+extents on hardware sensitivity and habits, which is hard to get right
+universally. So bite the bullet and add an option to enable or disable
+hot corners ...
+
+https://gitlab.gnome.org/GNOME/gsettings-desktop-schemas/merge_requests/26
+---
+ schemas/org.gnome.desktop.interface.gschema.xml.in | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/schemas/org.gnome.desktop.interface.gschema.xml.in b/schemas/org.gnome.desktop.interface.gschema.xml.in
+index 22ef50d..1e47888 100644
+--- a/schemas/org.gnome.desktop.interface.gschema.xml.in
++++ b/schemas/org.gnome.desktop.interface.gschema.xml.in
+@@ -228,6 +228,14 @@
+         If true, display weekday in the clock, in addition to time.
+       </description>
+     </key>
++    <key name="enable-hot-corners" type="b">
++      <default>true</default>
++      <summary>Enable hot corners</summary>
++      <description>
++        If true, the activities overview can be accessed by moving the
++        mouse to the top-left corner.
++      </description>
++    </key>
+     <key name="show-battery-percentage" type="b">
+       <default>false</default>
+       <summary>Show battery percentage</summary>
+-- 
+2.21.0
+

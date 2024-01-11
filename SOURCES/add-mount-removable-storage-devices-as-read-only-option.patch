@@ -1,0 +1,34 @@
+From 1dec88b007a13860ae8da33687fe4d496053ec98 Mon Sep 17 00:00:00 2001
+From: Ondrej Holy <oholy@redhat.com>
+Date: Tue, 14 May 2019 08:12:59 +0200
+Subject: [PATCH] schemas: Add "mount-removable-storage-devices-as-read-only"
+ option
+
+Add lockdown option to prevent users from writing or modifying files
+on removable storage devices. If enabled, gvfs is going to mount removable
+storage devices (i.e. flashdisks, mobile phones, cameras) as read-only.
+---
+ schemas/org.gnome.desktop.lockdown.gschema.xml.in | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/schemas/org.gnome.desktop.lockdown.gschema.xml.in b/schemas/org.gnome.desktop.lockdown.gschema.xml.in
+index 0150b32..d31fb77 100644
+--- a/schemas/org.gnome.desktop.lockdown.gschema.xml.in
++++ b/schemas/org.gnome.desktop.lockdown.gschema.xml.in
+@@ -71,5 +71,13 @@
+         and removing users, as well as changing other users settings.
+       </description>
+     </key>
++    <key name="mount-removable-storage-devices-as-read-only" type="b">
++      <default>false</default>
++      <summary>Mount removable storage devices as read-only</summary>
++      <description>
++        Prevent users from writing or modifying files on removable storage
++        devices (i.e. flash disks, mobile phones, cameras).
++      </description>
++    </key>
+   </schema>
+ </schemalist>
+-- 
+2.21.0
+
