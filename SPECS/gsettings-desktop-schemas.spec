@@ -4,13 +4,17 @@
 
 Name:           gsettings-desktop-schemas
 Version:        40.0
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        A collection of GSettings schemas
 
 License:        LGPLv2+
 # no homepage exists for this component
 URL:            https://gitlab.gnome.org/GNOME/gsettings-desktop-schemas
 Source0:        https://download.gnome.org/sources/%{name}/40/%{name}-%{tarball_version}.tar.xz
+
+# RHEL-103998
+# https://gitlab.gnome.org/GNOME/gsettings-desktop-schemas/-/merge_requests/111
+Patch:          0001-schema-Add-restart-enabled-on-screensaver-schema.patch
 
 BuildRequires:  gettext
 BuildRequires:  glib2-devel >= 2.31.0
@@ -81,6 +85,10 @@ glib-compile-schemas --dry-run --strict %{buildroot}%{_datadir}/glib-2.0/schemas
 
 
 %changelog
+* Wed Jul 16 2025 Joan Torres <joantolo@redhat.com> - 40.0-7
+- Add an option to enable restart/shutdown at lockscreen
+  Resolves: RHEL-103998
+
 * Wed Dec 21 2022 Tomas Popela <tpopela@redhat.com> - 40.0-6
 - Require the Source Code Pro font instead of only recommending it to not break
   systems updated from 9.0.0.
