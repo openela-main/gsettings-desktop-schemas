@@ -4,7 +4,7 @@
 
 Name:           gsettings-desktop-schemas
 Version:        40.0
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        A collection of GSettings schemas
 
 License:        LGPLv2+
@@ -15,6 +15,10 @@ Source0:        https://download.gnome.org/sources/%{name}/40/%{name}-%{tarball_
 # RHEL-103998
 # https://gitlab.gnome.org/GNOME/gsettings-desktop-schemas/-/merge_requests/111
 Patch:          0001-schema-Add-restart-enabled-on-screensaver-schema.patch
+
+# RHEL-123140
+# https://gitlab.gnome.org/GNOME/gsettings-desktop-schemas/-/merge_requests/28
+Patch:          0001-schemas-add-new-lockdown-setting-for-password-showin.patch
 
 BuildRequires:  gettext
 BuildRequires:  glib2-devel >= 2.31.0
@@ -85,6 +89,10 @@ glib-compile-schemas --dry-run --strict %{buildroot}%{_datadir}/glib-2.0/schemas
 
 
 %changelog
+* Tue Oct 21 2025 Joan Torres <joantolo@redhat.com> - 40.0-8
+- Add an option to disable showing password entry at login/lockscreen
+  Resolves: RHEL-123140
+
 * Wed Jul 16 2025 Joan Torres <joantolo@redhat.com> - 40.0-7
 - Add an option to enable restart/shutdown at lockscreen
   Resolves: RHEL-103998
