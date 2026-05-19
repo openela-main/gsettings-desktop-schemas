@@ -1,0 +1,131 @@
+From 74487ff3188413f5c0175b49d549b01262d783bf Mon Sep 17 00:00:00 2001
+From: Philip Withnall <pwithnall@gnome.org>
+Date: Wed, 24 Apr 2024 16:38:34 +0100
+Subject: [PATCH 1/2] schemas: Add screen-time-limits schema
+
+This will allow implementing screen time reminders / daily usage limits
+in the shell, while having the settings for it in gnome-control-center.
+
+Signed-off-by: Philip Withnall <pwithnall@gnome.org>
+
+Helps: https://gitlab.gnome.org/Teams/Design/initiatives/-/issues/130
+---
+ po/POTFILES.in                                |  1 +
+ schemas/meson.build                           |  1 +
+ ....desktop.screen-time-limits.gschema.xml.in | 29 +++++++++++++++++++
+ 3 files changed, 31 insertions(+)
+ create mode 100644 schemas/org.gnome.desktop.screen-time-limits.gschema.xml.in
+
+diff --git a/po/POTFILES.in b/po/POTFILES.in
+index 8137e6e..4618fd3 100644
+--- a/po/POTFILES.in
++++ b/po/POTFILES.in
+@@ -20,6 +20,7 @@ schemas/org.gnome.desktop.notifications.gschema.xml.in
+ schemas/org.gnome.desktop.peripherals.gschema.xml.in
+ schemas/org.gnome.desktop.privacy.gschema.xml.in
+ schemas/org.gnome.desktop.screensaver.gschema.xml.in
++schemas/org.gnome.desktop.screen-time-limits.gschema.xml.in
+ schemas/org.gnome.desktop.search-providers.gschema.xml.in
+ schemas/org.gnome.desktop.session.gschema.xml.in
+ schemas/org.gnome.desktop.sound.gschema.xml.in
+diff --git a/schemas/meson.build b/schemas/meson.build
+index 250bb45..289faa8 100644
+--- a/schemas/meson.build
++++ b/schemas/meson.build
+@@ -21,6 +21,7 @@ schemas = [
+   'org.gnome.desktop.datetime.gschema.xml',
+   'org.gnome.desktop.media-handling.gschema.xml',
+   'org.gnome.desktop.screensaver.gschema.xml',
++  'org.gnome.desktop.screen-time-limits.gschema.xml',
+   'org.gnome.desktop.search-providers.gschema.xml',
+   'org.gnome.desktop.wm.keybindings.gschema.xml',
+   'org.gnome.desktop.wm.preferences.gschema.xml',
+diff --git a/schemas/org.gnome.desktop.screen-time-limits.gschema.xml.in b/schemas/org.gnome.desktop.screen-time-limits.gschema.xml.in
+new file mode 100644
+index 0000000..28615db
+--- /dev/null
++++ b/schemas/org.gnome.desktop.screen-time-limits.gschema.xml.in
+@@ -0,0 +1,29 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!--
++  SPDX-License-Identifier: LGPL-2.1-or-later
++  SPDX-FileCopyrightText: 2024 GNOME Foundation, Inc.
++-->
++<schemalist gettext-domain="gsettings-desktop-schemas">
++  <schema id="org.gnome.desktop.screen-time-limits" path="/org/gnome/desktop/screen-time-limits/">
++    <key name="enabled" type="b">
++      <summary>Enable screen time</summary>
++      <description>
++        Enable overall screen time functionality.
++      </description>
++      <default>false</default>
++    </key>
++
++    <key name="daily-limit-seconds" type="u">
++      <summary>Daily screen time limit</summary>
++      <description>The limit on the amount of daily screen time the user is allowed, in seconds.</description>
++      <default>28800</default>
++      <range min="10"/>
++    </key>
++
++    <key name="grayscale" type="b">
++      <summary>Grayscale once limit is reached</summary>
++      <description>Whether to make the screen grayscale once the user’s screen time limit is reached.</description>
++      <default>true</default>
++    </key>
++  </schema>
++</schemalist>
+-- 
+2.51.1
+
+
+From da89e64f33808a775c05984397d5ee14f5c2ba52 Mon Sep 17 00:00:00 2001
+From: Philip Withnall <pwithnall@gnome.org>
+Date: Mon, 20 Jan 2025 17:18:07 +0000
+Subject: [PATCH 2/2] schemas: Split data recording and limits in screen time
+ limits schema
+
+As decided in
+https://gitlab.gnome.org/GNOME/gnome-control-center/-/issues/3306, users
+need to be able to enable screen time recording while not having limits
+enabled, so they can see a chart of their usage without it actually
+limiting their behaviour.
+
+Signed-off-by: Philip Withnall <pwithnall@gnome.org>
+
+Helps: https://gitlab.gnome.org/GNOME/gnome-control-center/-/issues/3306
+---
+ ...g.gnome.desktop.screen-time-limits.gschema.xml.in | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/schemas/org.gnome.desktop.screen-time-limits.gschema.xml.in b/schemas/org.gnome.desktop.screen-time-limits.gschema.xml.in
+index 28615db..a4e9f2c 100644
+--- a/schemas/org.gnome.desktop.screen-time-limits.gschema.xml.in
++++ b/schemas/org.gnome.desktop.screen-time-limits.gschema.xml.in
+@@ -5,14 +5,20 @@
+ -->
+ <schemalist gettext-domain="gsettings-desktop-schemas">
+   <schema id="org.gnome.desktop.screen-time-limits" path="/org/gnome/desktop/screen-time-limits/">
+-    <key name="enabled" type="b">
+-      <summary>Enable screen time</summary>
++    <key name="history-enabled" type="b">
++      <summary>Enable screen time history</summary>
+       <description>
+-        Enable overall screen time functionality.
++        Enable basic screen time functionality, recording usage data for viewing history.
+       </description>
+       <default>false</default>
+     </key>
+ 
++    <key name="daily-limit-enabled" type="b">
++      <summary>Enable daily screen time limit</summary>
++      <description>Enable imposing a screen time limit on the user, as set in daily-limit-seconds.</description>
++      <default>false</default>
++    </key>
++
+     <key name="daily-limit-seconds" type="u">
+       <summary>Daily screen time limit</summary>
+       <description>The limit on the amount of daily screen time the user is allowed, in seconds.</description>
+-- 
+2.51.1
+
